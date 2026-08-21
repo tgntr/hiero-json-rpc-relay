@@ -66,8 +66,8 @@ export default class KoaJsonRpc {
     });
   }
 
-  rpcApp(): (ctx: Koa.Context) => Promise<void> {
-    return async (ctx: Koa.Context) => {
+  rpcApp(): (ctx: Koa.ParameterizedContext) => Promise<void> {
+    return async (ctx: Koa.ParameterizedContext) => {
       const requestId = ctx.state.reqId;
       ctx.set(REQUEST_ID_HEADER_NAME, requestId);
 
@@ -95,7 +95,7 @@ export default class KoaJsonRpc {
     };
   }
 
-  private async handleSingleRequest(ctx: Koa.Context, body: unknown, requestId: string): Promise<void> {
+  private async handleSingleRequest(ctx: Koa.ParameterizedContext, body: unknown, requestId: string): Promise<void> {
     let response: IJsonRpcResponse;
     if (!this.hasValidJsonRpcId(body)) {
       response = jsonRespError(null, spec.InvalidRequest, requestId);
@@ -116,7 +116,7 @@ export default class KoaJsonRpc {
     }
   }
 
-  private async handleBatchRequest(ctx: Koa.Context, body: unknown[], requestId: string): Promise<void> {
+  private async handleBatchRequest(ctx: Koa.ParameterizedContext, body: unknown[], requestId: string): Promise<void> {
     // verify that batch requests are enabled
     if (!getBatchRequestsEnabled()) {
       ctx.body = jsonRespError(null, predefined.BATCH_REQUESTS_DISABLED, requestId);

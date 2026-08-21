@@ -5,12 +5,12 @@ import { expect, use } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 
 import { numberTo0x } from '../../../../src/relay/formatters';
+import { type MirrorNodeClient } from '../../../../src/relay/lib/clients';
+import type { ICacheClient } from '../../../../src/relay/lib/clients/cache/ICacheClient';
 import constants from '../../../../src/relay/lib/constants';
 import { type EthImpl } from '../../../../src/relay/lib/eth';
+import { type CommonService } from '../../../../src/relay/lib/services';
 import { RequestDetails } from '../../../../src/relay/lib/types';
-import type { ICacheClient } from '../../../../src/relay/services/cache';
-import { type CommonService } from '../../../../src/relay/services/commonService';
-import { type MirrorNodeClient } from '../../../../src/relay/services/mirrorNodeClient';
 import { buildCryptoTransferTransaction, mockWorkersPool, overrideEnvsInMochaDescribe } from '../../helpers';
 import {
   BLOCK_TIMESTAMP,

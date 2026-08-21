@@ -2,8 +2,14 @@
 
 import { inspect } from 'node:util';
 
-import type { ContentDescriptorObject, JSONSchema, MethodObject, OpenrpcDocument } from '@open-rpc/meta-schema';
 import { parseOpenRPCDocument, validateOpenRPCDocument } from '@open-rpc/schema-utils-js';
+import type {
+  ContentDescriptorObject,
+  JSONSchema,
+  MethodObject,
+  MethodOrReference,
+  OpenrpcDocument,
+} from '@open-rpc/schema-utils-js/build/types';
 import Ajv from 'ajv';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
@@ -87,8 +93,9 @@ describe('Open RPC Specification', function () {
 
   before(async () => {
     openRpcDocument = await parseOpenRPCDocument(JSON.stringify(openRpcSchema));
-    methodsResponseSchema = openRpcDocument.methods
-      .filter((method) => 'name' in method)
+    const documentMethods: MethodOrReference[] = openRpcDocument.methods;
+    methodsResponseSchema = documentMethods
+      .filter((method): method is MethodObject => 'name' in method)
       .filter((method) => method.result !== undefined)
       .reduce(
         (res, method) => ({
@@ -557,8 +564,9 @@ describe('Open RPC Specification', function () {
     let methodsSchema: { [method: string]: MethodObject };
 
     before(function () {
-      methodsSchema = openRpcDocument.methods
-        .filter((method) => 'name' in method)
+      const documentMethods: MethodOrReference[] = openRpcDocument.methods;
+      methodsSchema = documentMethods
+        .filter((method): method is MethodObject => 'name' in method)
         .reduce((res, method) => ({ ...res, [method.name]: method }), {} as { [method: string]: MethodObject });
     });
 

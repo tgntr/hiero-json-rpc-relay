@@ -22,6 +22,10 @@ import { WorkersPool } from '../../src/relay/lib/services/workersService/Workers
 import { ConfigServiceTestHelper } from '../config-service/configServiceTestHelper';
 import { RedisInMemoryServer } from './redisInMemoryServer';
 
+export function assertExists<T>(value: T | null | undefined): asserts value is T {
+  expect(value).to.exist;
+}
+
 // Randomly generated key
 const defaultPrivateKey = '8841e004c6f47af679c91d9282adc62aeb9fabd19cdff6a9da5a358d0613c30a';
 

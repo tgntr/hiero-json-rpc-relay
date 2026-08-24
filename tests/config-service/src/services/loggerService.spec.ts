@@ -6,7 +6,7 @@ import crypto from 'crypto';
 
 import { ConfigService } from '../../../../src/config-service/services';
 import { LoggerService } from '../../../../src/config-service/services/loggerService';
-import { assertExists } from '../../../relay/helpers';
+import { assertExists } from '../../../helpers/typeAssertions';
 
 chai.use(chaiAsPromised);
 

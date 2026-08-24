@@ -23,8 +23,9 @@ import { CommonService } from '../../../src/relay/lib/services';
 import HAPIService from '../../../src/relay/lib/services/hapiService/hapiService';
 import { HbarLimitService } from '../../../src/relay/lib/services/hbarLimitService';
 import { RequestDetails } from '../../../src/relay/lib/types';
+import { assertExists } from '../../helpers/typeAssertions';
 import RelayAssertions from '../assertions';
-import { assertExists, getQueryParams, withOverriddenEnvsInMochaTest } from '../helpers';
+import { getQueryParams, withOverriddenEnvsInMochaTest } from '../helpers';
 import { generateEthTestEnv } from './eth/eth-helpers';
 
 chai.use(chaiAsPromised);

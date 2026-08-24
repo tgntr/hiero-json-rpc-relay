@@ -12,8 +12,8 @@ import { type EthImpl } from '../../../../src/relay/lib/eth';
 import { type CommonService } from '../../../../src/relay/lib/services';
 import type HAPIService from '../../../../src/relay/lib/services/hapiService/hapiService';
 import { type ITransactionReceipt, RequestDetails } from '../../../../src/relay/lib/types';
+import { assertExists } from '../../../helpers/typeAssertions';
 import {
-  assertExists,
   contractHash3,
   defaultContractResults,
   defaultContractResultsOnlyHash2,

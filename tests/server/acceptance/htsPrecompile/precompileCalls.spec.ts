@@ -7,7 +7,7 @@ import { ethers } from 'ethers';
 
 import { numberTo0x } from '../../../../src/relay/formatters';
 import { predefined } from '../../../../src/relay/lib/errors/JsonRpcError';
-import { assertExists } from '../../../relay/helpers';
+import { assertExists } from '../../../helpers/typeAssertions';
 import type MirrorClient from '../../clients/mirrorClient';
 import type RelayClient from '../../clients/relayClient';
 import type ServicesClient from '../../clients/servicesClient';

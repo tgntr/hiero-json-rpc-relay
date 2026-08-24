@@ -9,7 +9,8 @@ import * as sinon from 'sinon';
 import { ConfigService } from '../../../../../src/config-service/services';
 import { type LockMetricsService } from '../../../../../src/relay/lib/services/lockService/LockMetricsService';
 import { RedisLockStrategy } from '../../../../../src/relay/lib/services/lockService/RedisLockStrategy';
-import { assertExists, overrideEnvsInMochaDescribe } from '../../../helpers';
+import { assertExists } from '../../../../helpers/typeAssertions';
+import { overrideEnvsInMochaDescribe } from '../../../helpers';
 
 use(chaiAsPromised);
 

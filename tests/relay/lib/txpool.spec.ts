@@ -12,7 +12,8 @@ import constants from '../../../src/relay/lib/constants';
 import { Relay } from '../../../src/relay/lib/relay';
 import { TransactionPoolService } from '../../../src/relay/lib/services';
 import { TxPoolImpl, type TxPoolTransaction } from '../../../src/relay/lib/txpool';
-import { asRelayInternals, assertExists } from '../helpers';
+import { assertExists } from '../../helpers/typeAssertions';
+import { asRelayInternals } from '../helpers';
 
 const logger = pino({ level: 'silent' });
 

@@ -6,7 +6,8 @@ import sinon from 'sinon';
 
 import { LocalLockStrategy, type LockState } from '../../../../../src/relay/lib/services/lockService/LocalLockStrategy';
 import { type LockMetricsService } from '../../../../../src/relay/lib/services/lockService/LockMetricsService';
-import { assertExists, withOverriddenEnvsInMochaTest } from '../../../helpers';
+import { assertExists } from '../../../../helpers/typeAssertions';
+import { withOverriddenEnvsInMochaTest } from '../../../helpers';
 
 describe('LocalLockStrategy', function () {
   this.timeout(10000);

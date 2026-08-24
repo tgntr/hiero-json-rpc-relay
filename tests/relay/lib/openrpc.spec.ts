@@ -3,13 +3,6 @@
 import { inspect } from 'node:util';
 
 import { parseOpenRPCDocument, validateOpenRPCDocument } from '@open-rpc/schema-utils-js';
-import type {
-  ContentDescriptorObject,
-  JSONSchema,
-  MethodObject,
-  MethodOrReference,
-  OpenrpcDocument,
-} from '@open-rpc/schema-utils-js/build/types';
 import Ajv from 'ajv';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
@@ -70,6 +63,14 @@ import {
 } from '../helpers';
 import { CONTRACT_RESULT_MOCK, NOT_FOUND_RES } from './eth/eth-config';
 import { asSdkClientProvider } from './eth/eth-helpers';
+
+// `@open-rpc/schema-utils-js` exports these types only from its internal `build/types`,
+// so derive them from the public `parseOpenRPCDocument` signature instead.
+type OpenrpcDocument = Awaited<ReturnType<typeof parseOpenRPCDocument>>;
+type MethodOrReference = OpenrpcDocument['methods'][number];
+type MethodObject = Extract<MethodOrReference, { name: string }>;
+type ContentDescriptorObject = Extract<NonNullable<MethodObject['result']>, { schema: unknown }>;
+type JSONSchema = ContentDescriptorObject['schema'];
 
 const logger = pino({ level: 'silent' });
 const registry = new Registry();

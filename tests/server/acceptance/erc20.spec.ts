@@ -268,8 +268,7 @@ describe('@erc20 Acceptance Tests', async function () {
                       );
                     } catch (e) {
                       // eth_estimateGas gets called by ethers
-                      // so we need to catch the error and check that the reason is the expected one,
-                      // in addition to validating the CALL_EXCEPTION
+                      // so we need to catch the error and check that the reason is the expected one
                       expect(extractRevertReason((e as { error: { reason: string } }).error.reason)).to.be.equal(
                         'ERC20: transfer amount exceeds balance',
                       );
@@ -306,8 +305,7 @@ describe('@erc20 Acceptance Tests', async function () {
                       );
                     } catch (e) {
                       // eth_estimateGas gets called by ethers
-                      // so we need to catch the error and check that the reason is the expected one,
-                      // in addition to validating the CALL_EXCEPTION
+                      // so we need to catch the error and check that the reason is the expected one
                       expect(extractRevertReason((e as { error: { reason: string } }).error.reason)).to.be.equal(
                         'ERC20: insufficient allowance',
                       );
@@ -332,8 +330,7 @@ describe('@erc20 Acceptance Tests', async function () {
                       );
                     } catch (e) {
                       // eth_estimateGas gets called by ethers
-                      // so we need to catch the error and check that the reason is the expected one,
-                      // in addition to validating the CALL_EXCEPTION
+                      // so we need to catch the error and check that the reason is the expected one
                       expect(extractRevertReason((e as { error: { reason: string } }).error.reason)).to.be.equal(
                         'ERC20: transfer amount exceeds balance',
                       );
@@ -361,8 +358,7 @@ describe('@erc20 Acceptance Tests', async function () {
                   await Assertions.expectRevert(contract.connect(spenderWallet).transferFrom(tokenOwner, to, amount));
                 } catch (e) {
                   // eth_estimateGas gets called by ethers
-                  // so we need to catch the error and check that the reason is the expected one,
-                  // in addition to validating the CALL_EXCEPTION
+                  // so we need to catch the error and check that the reason is the expected one
                   // issue #1514, revist this when fixed
                   expect(extractRevertReason((e as { error: { reason: string } }).error.reason)).to.be.equal(
                     'ERC20: insufficient allowance',

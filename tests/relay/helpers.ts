@@ -6,10 +6,12 @@ import crypto from 'crypto';
 import { ethers } from 'ethers';
 import { type Logger } from 'pino';
 import type Piscina from 'piscina';
+import { type RedisClientType } from 'redis';
 import * as sinon from 'sinon';
 
 import { ConfigService } from '../../src/config-service/services';
 import { type ConfigKey } from '../../src/config-service/services/globalConfig';
+import { type Relay } from '../../src/relay';
 import { numberTo0x, toHash32 } from '../../src/relay/formatters';
 import { type ICacheClient } from '../../src/relay/lib/clients/cache/ICacheClient';
 import { type MirrorNodeClient } from '../../src/relay/lib/clients/mirrorNodeClient';
@@ -21,6 +23,14 @@ import handleTask, { type WorkerTask } from '../../src/relay/lib/services/worker
 import { WorkersPool } from '../../src/relay/lib/services/workersService/WorkersPool';
 import { ConfigServiceTestHelper } from '../config-service/configServiceTestHelper';
 import { RedisInMemoryServer } from './redisInMemoryServer';
+
+export interface RelayInternals {
+  ensureOperatorHasBalance(): Promise<void>;
+  waitForMirrorNode(): Promise<void>;
+  populatePreconfiguredSpendingPlans(): Promise<void>;
+}
+
+export const asRelayInternals = (relay: Relay): RelayInternals => relay as unknown as RelayInternals;
 
 export function assertExists<T>(value: T | null | undefined): asserts value is T {
   expect(value).to.exist;
@@ -993,7 +1003,7 @@ export const useInMemoryRedisServer = (logger: Logger, port: number) => {
 
   before(async () => {
     redisInMemoryServer = await startRedisInMemoryServer(logger, port);
-    RedisClientManager['client'] = null;
+    (RedisClientManager as unknown as { client: RedisClientType | null }).client = null;
   });
 
   after(async () => {

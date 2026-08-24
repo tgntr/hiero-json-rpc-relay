@@ -9,6 +9,7 @@ import sinon from 'sinon';
 import { ConfigService } from '../../../../src/config-service/services';
 import { Relay } from '../../../../src/relay';
 import { RequestDetails } from '../../../../src/relay/lib/types';
+import { asRelayInternals } from '../../helpers';
 
 use(chaiAsPromised);
 
@@ -20,11 +21,7 @@ describe('@ethCommon', async function () {
   const requestDetails = new RequestDetails({ requestId: 'eth_commonTest', ipAddress: '0.0.0.0' });
 
   this.beforeAll(async () => {
-    // both are private on `Relay`; stub them through a shape that exposes them
-    const relayInternals = Relay.prototype as unknown as {
-      ensureOperatorHasBalance(): Promise<void>;
-      waitForMirrorNode(): Promise<void>;
-    };
+    const relayInternals = asRelayInternals(Relay.prototype);
     sinon.stub(relayInternals, 'ensureOperatorHasBalance').resolves();
     sinon.stub(relayInternals, 'waitForMirrorNode').resolves();
     relay = await Relay.init(pino({ level: 'silent' }), new Registry());

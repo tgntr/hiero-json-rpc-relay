@@ -6,7 +6,7 @@ import sinon from 'sinon';
 
 import { LocalLockStrategy, type LockState } from '../../../../../src/relay/lib/services/lockService/LocalLockStrategy';
 import { type LockMetricsService } from '../../../../../src/relay/lib/services/lockService/LockMetricsService';
-import { withOverriddenEnvsInMochaTest } from '../../../helpers';
+import { assertExists, withOverriddenEnvsInMochaTest } from '../../../helpers';
 
 describe('LocalLockStrategy', function () {
   this.timeout(10000);
@@ -37,8 +37,10 @@ describe('LocalLockStrategy', function () {
     sinon.restore();
   });
 
-  function getStateEntry(address: string): LockState | null {
-    return lockStrategy['localLockStates'].get(address);
+  function getStateEntry(address: string): LockState {
+    const state = lockStrategy['localLockStates'].get(address);
+    assertExists(state);
+    return state;
   }
 
   it('should acquire and release a lock successfully', async () => {
@@ -141,7 +143,7 @@ describe('LocalLockStrategy', function () {
     const result = await lockStrategy.acquireLock(address);
     const state = lockStrategy['localLockStates'].get(address);
 
-    expect(state).to.not.be.undefined;
+    assertExists(state);
     expect(state.sessionKey).to.equal(result!.sessionKey);
     expect(state.lockTimeoutId).to.not.be.null;
 
@@ -156,7 +158,7 @@ describe('LocalLockStrategy', function () {
     const result = await lockStrategy.acquireLock(address);
 
     const state = lockStrategy['localLockStates'].get(address);
-    expect(state).to.not.be.undefined;
+    assertExists(state);
     expect(state.sessionKey).to.equal(result!.sessionKey);
 
     // Modify session key to simulate ownership change

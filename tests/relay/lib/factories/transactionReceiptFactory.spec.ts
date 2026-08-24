@@ -275,7 +275,7 @@ describe('TransactionReceiptFactory', () => {
         s: null,
         type: null,
         v: null,
-        nonce: null,
+        nonce: null as unknown as number,
       };
 
       const receipt = TransactionReceiptFactory.createRegularReceipt({

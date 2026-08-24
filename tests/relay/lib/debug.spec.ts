@@ -9,7 +9,7 @@ import { register, Registry } from 'prom-client';
 import sinon from 'sinon';
 
 import { ConfigService } from '../../../src/config-service/services';
-import { predefined } from '../../../src/relay';
+import { type JsonRpcError, predefined } from '../../../src/relay';
 import { strip0x } from '../../../src/relay/formatters';
 import { MirrorNodeClient } from '../../../src/relay/lib/clients';
 import { type IOpcodesResponse } from '../../../src/relay/lib/clients/models/IOpcodesResponse';
@@ -24,7 +24,7 @@ import HAPIService from '../../../src/relay/lib/services/hapiService/hapiService
 import { HbarLimitService } from '../../../src/relay/lib/services/hbarLimitService';
 import { RequestDetails } from '../../../src/relay/lib/types';
 import RelayAssertions from '../assertions';
-import { getQueryParams, withOverriddenEnvsInMochaTest } from '../helpers';
+import { assertExists, getQueryParams, withOverriddenEnvsInMochaTest } from '../helpers';
 import { generateEthTestEnv } from './eth/eth-helpers';
 
 chai.use(chaiAsPromised);
@@ -77,6 +77,8 @@ describe('Debug API Test Suite', async function () {
 
   const syntheticLog = {
     address: contractAddress,
+    bloom: '0x1111',
+    contract_id: '0.0.1033',
     block_hash: '0xa4c97b684587a2f1fc42e14ae743c336b97c58f752790482d12e44919f2ccb062807df5c9c0fa9a373b4d9726707f8b5',
     block_number: 668,
     data: '0x0000000000000000000000000000000000000000000000000000000000000064',
@@ -93,6 +95,8 @@ describe('Debug API Test Suite', async function () {
 
   const syntheticLog2 = {
     address: contractAddress2,
+    bloom: '0x2222',
+    contract_id: '0.0.1034',
     block_hash: '0xa4c97b684587a2f1fc42e14ae743c336b97c58f752790482d12e44919f2ccb062807df5c9c0fa9a373b4d9726707f8b5',
     block_number: 668,
     data: '0x00000000000000000000000000000000000000000000000000000000000000c8',
@@ -470,7 +474,7 @@ describe('Debug API Test Suite', async function () {
           'a0' +
           '0000000000000000000000000000000000000000000000000000000000000000'; // withdrawalsRoot
 
-        sinon.stub(debugService['blockService'], 'getBlockByHash').resolves(blockInfo as Block);
+        sinon.stub(debugService['blockService'], 'getBlockByHash').resolves(blockInfo as unknown as Block);
         const result = await debugService.getRawHeader(blockHash, requestDetails);
         expect(result).to.equal(expectedRlpHex);
       });
@@ -555,7 +559,7 @@ describe('Debug API Test Suite', async function () {
           'c0' + // ommers
           'c0'; // withdrawals
 
-        sinon.stub(debugService['blockService'], 'getBlockByHash').resolves(blockInfo as Block);
+        sinon.stub(debugService['blockService'], 'getBlockByHash').resolves(blockInfo as unknown as Block);
         const result = await debugService.getRawBlock(blockHash, requestDetails);
         expect(result).to.equal(expectedRlpHex);
       });
@@ -1518,8 +1522,9 @@ describe('Debug API Test Suite', async function () {
           );
           expect.fail('Expected the traceBlockByNumber to throw an error but it did not');
         } catch (error) {
-          expect(error.code).to.equal(predefined.RESOURCE_NOT_FOUND().code);
-          expect(error.message).to.include(`Block ${blockNumber} not found`);
+          const thrown = error as JsonRpcError;
+          expect(thrown.code).to.equal(predefined.RESOURCE_NOT_FOUND().code);
+          expect(thrown.message).to.include(`Block ${blockNumber} not found`);
         }
       });
 
@@ -2002,8 +2007,10 @@ describe('Debug API Test Suite', async function () {
           expect(getLogsWithParamsSpy.callCount).to.equal(0);
           expect(result).to.be.an('array').with.lengthOf(1);
           expect(result[0].txHash).to.equal(syntheticTxHash);
-          expect(result[0].result.from).to.equal(accountsResult.evm_address);
-          expect(result[0].result.to).to.equal(accountAddress);
+          const traceResult = result[0].result;
+          assertExists(traceResult);
+          expect(traceResult.from).to.equal(accountsResult.evm_address);
+          expect(traceResult.to).to.equal(accountAddress);
         });
 
         it('should not make per-transaction log API calls when logs are pre-fetched at block level (PrestateTracer)', async function () {
@@ -2191,8 +2198,9 @@ describe('Debug API Test Suite', async function () {
           );
           expect.fail('Expected the traceBlockByHash to throw an error but it did not');
         } catch (error) {
-          expect(error.code).to.equal(predefined.RESOURCE_NOT_FOUND().code);
-          expect(error.message).to.include(`Block ${blockHash} not found`);
+          const thrown = error as JsonRpcError;
+          expect(thrown.code).to.equal(predefined.RESOURCE_NOT_FOUND().code);
+          expect(thrown.message).to.include(`Block ${blockHash} not found`);
         }
       });
 

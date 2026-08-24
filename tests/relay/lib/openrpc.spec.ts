@@ -11,7 +11,6 @@ import pino from 'pino';
 import { register, Registry } from 'prom-client';
 import sinon from 'sinon';
 
-import { LocalPendingTransactionStorage } from '../../../dist/relay/lib/services';
 import openRpcSchema from '../../../docs/openrpc.json';
 import { ConfigService } from '../../../src/config-service/services';
 import { type Eth, type JsonRpcError, type Net, type TxPool, type Web3 } from '../../../src/relay';
@@ -25,7 +24,12 @@ import { IPAddressHbarSpendingPlanRepository } from '../../../src/relay/lib/db/r
 import { EthImpl } from '../../../src/relay/lib/eth';
 import { CacheClientFactory } from '../../../src/relay/lib/factories/cacheClientFactory';
 import { NetImpl } from '../../../src/relay/lib/net';
-import { type CommonService, TransactionPoolService, TransactionTracingService } from '../../../src/relay/lib/services';
+import {
+  type CommonService,
+  LocalPendingTransactionStorage,
+  TransactionPoolService,
+  TransactionTracingService,
+} from '../../../src/relay/lib/services';
 import ClientService from '../../../src/relay/lib/services/hapiService/hapiService';
 import { HbarLimitService } from '../../../src/relay/lib/services/hbarLimitService';
 import { LockService } from '../../../src/relay/lib/services/lockService/LockService';

@@ -71,6 +71,10 @@ export function registerAcceptanceSuite(options: AcceptanceSuiteOptions): void {
     const CHAIN_ID = ConfigService.get('CHAIN_ID');
     const INITIAL_BALANCE = ConfigService.get('INITIAL_BALANCE');
 
+    if (!OPERATOR_ID || !OPERATOR_KEY) {
+      throw new Error('OPERATOR_ID_MAIN and OPERATOR_KEY_MAIN must be set to run acceptance tests');
+    }
+
     global.relayIsLocal = RELAY_URL === LOCAL_RELAY_URL;
     global.servicesNode = new ServicesClient(NETWORK, OPERATOR_ID, OPERATOR_KEY);
     global.mirrorNode = new MirrorClient(MIRROR_NODE_URL);

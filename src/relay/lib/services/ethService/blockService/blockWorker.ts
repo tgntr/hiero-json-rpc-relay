@@ -649,8 +649,9 @@ async function loadBlockExecutionData(
  * running cumulative gas used before this transaction. The returned shape
  * contains only the fields required for Yellow Paper receipt encoding, including the updated cumulative gas used,
  * logs and bloom, root and status, transaction index, and normalized type.
- * @param params - Parameters required to build the RLP input, including
- *   contract result data, associated logs, and the cumulative gas used.
+ * @param logs - The logs associated with the transaction.
+ * @param receiptResponse - The mirror node contract result data.
+ * @param cumulativeGasUsed - The cumulative gas used before this transaction.
  * @returns Minimal receipt data suitable for RLP encoding.
  */
 function createReceiptRlpInput(

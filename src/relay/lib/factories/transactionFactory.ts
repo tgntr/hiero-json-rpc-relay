@@ -145,7 +145,7 @@ const formatAccessList = (accessList: unknown): AccessListEntry[] =>
 /**
  * Formats an address by normalizing and sanitizing its format.
  *
- * @param {any} address - The value received.
+ * @param {unknown} address - The value received.
  * @returns {string} - The formatted address as a 0x-prefixed hex string with a length of 40 characters.
  */
 const formatAddress = (address: unknown): string => {

@@ -85,8 +85,8 @@ const formatTransactionIdWithoutQueryParams = (transactionId: string): string | 
  * If it is not set in `.env` or set as an empty string or other non-numeric
  * value, it uses the default value specified in constants.
  * @param envVarName The name of the env var to read in from the `.env` file
- * @param constantName The name of the constant to use as a fallback when the
- *   specified env var is invalid
+ * @param fallbackConstantKey The name of the constant to use as a fallback when
+ *   the specified env var is invalid
  * @throws An error if both the env var and constant are invalid
  */
 const parseNumericEnvVar = (envVarName: string, fallbackConstantKey: string): number => {

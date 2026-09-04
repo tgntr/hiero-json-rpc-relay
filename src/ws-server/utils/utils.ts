@@ -21,7 +21,7 @@ const getRequestIdIsOptional = (): boolean => {
 /**
  * Handles the closure of a WebSocket connection.
  * @param {Koa.Context} ctx - The context object containing information about the WebSocket connection.
- * @param {Relay} relay - The relay instance used for handling subscriptions.
+ * @param {SubscriptionService} subscriptionService - The service used for handling subscriptions.
  * @param {ConnectionLimiter} limiter - The limiter instance used for managing connection limits.
  * @param {WsMetricRegistry} wsMetricRegistry - The metric registry used for tracking WebSocket metrics.
  * @param {[number, number]} startTime - The start time of the connection represented as a tuple of seconds and nanoseconds.
@@ -68,7 +68,6 @@ export const handleConnectionClose = async (
  * @param {IJsonRpcRequest | IJsonRpcRequest[]} request - The request object received from the client.
  * @param {IJsonRpcResponse | IJsonRpcResponse[]} response - The response data to be sent back to the client.
  * @param {Logger} logger - The logger object used for logging messages.
- * @param {RequestDetails} requestDetails - The request details for logging and tracking.
  */
 export const sendToClient = (
   connection: SubscriberConnection,
@@ -184,9 +183,8 @@ export const constructValidLogSubscriptionFilter = (filters: object): object => 
  * Handles sending the WS_SUBSCRIPTIONS_DISABLED error response.
  *
  * @param logger - The logger instance.
- * @param ctx - The Koa context.
  * @param requestDetails - Details of the current request.
- * @returns void
+ * @returns The WS_SUBSCRIPTIONS_DISABLED JSON-RPC error response.
  */
 export const sendSubscriptionsDisabledError = (logger: Logger, requestDetails: RequestDetails): IJsonRpcResponse => {
   const wsSubscriptionsDisabledError = predefined.WS_SUBSCRIPTIONS_DISABLED;

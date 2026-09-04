@@ -1923,7 +1923,6 @@ export class MirrorNodeClient {
    *
    * @param fromNanos - Start timestamp in nanoseconds (must be less than toNanos)
    * @param toNanos - End timestamp in nanoseconds (must be greater than fromNanos)
-   * @param durationNanos - Total duration in nanoseconds (must be positive)
    * @param sliceCount - Number of slices to create (must be positive integer)
    * @returns Array of timestamp slice boundaries with Mirror Node API format
    * @throws Error if input validation fails

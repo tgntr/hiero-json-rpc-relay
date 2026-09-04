@@ -248,11 +248,10 @@ export class DebugImpl implements Debug {
    * @rpcParamValidationRules Applies JSON-RPC parameter validation according to the API specification
    *
    * @param {string} transactionIdOrHash - The ID or hash of the transaction to be traced.
-   * @param {TracerType} tracer - The type of tracer to use (either 'CallTracer' or 'OpcodeLogger').
-   * @param {ITracerConfig} tracerConfig - The configuration object for the tracer.
+   * @param {TransactionTracerConfig} tracerObject - The configuration wrapper containing tracer type and config.
    * @param {RequestDetails} requestDetails - The request details for logging and tracking.
    * @throws {Error} Throws an error if the specified tracer type is not supported or if an exception occurs during the trace.
-   * @returns {Promise<any>} A Promise that resolves to the result of the trace operation.
+   * @returns {Promise<CallTracerResult | EntityTraceStateMap | OpcodeLoggerResult>} A Promise that resolves to the result of the trace operation.
    *
    * @example
    * const result = await traceTransaction('0x123abc', TracerType.CallTracer, {"tracerConfig": {"onlyTopCall": false}}, some request id);
@@ -333,7 +332,7 @@ export class DebugImpl implements Debug {
    * @param {BlockTracerConfig} tracerObject - The configuration wrapper containing tracer type and config.
    * @param {RequestDetails} requestDetails - The request details for logging and tracking.
    * @throws {Error} Throws an error if the debug API is not enabled or if an exception occurs during the trace.
-   * @returns {Promise<any>} A Promise that resolves to the result of the block trace operation.
+   * @returns {Promise<TraceBlockTxResult[]>} A Promise that resolves to the result of the block trace operation.
    *
    * @example
    * const result = await traceBlockByNumber('0x1234', { tracer: TracerType.CallTracer, tracerConfig: { onlyTopCall: false } }, requestDetails);
@@ -366,7 +365,7 @@ export class DebugImpl implements Debug {
    * @param {BlockTracerConfig} tracerObject - The configuration wrapper containing tracer type and config.
    * @param {RequestDetails} requestDetails - The request details for logging and tracking.
    * @throws {Error} Throws an error if the debug API is not enabled or if an exception occurs during the trace.
-   * @returns {Promise<any>} A Promise that resolves to the result of the block trace operation.
+   * @returns {Promise<TraceBlockTxResult[]>} A Promise that resolves to the result of the block trace operation.
    *
    * @example
    * const result = await traceBlockByHash('0x1234...', { tracer: TracerType.CallTracer, tracerConfig: { onlyTopCall: false } }, requestDetails);

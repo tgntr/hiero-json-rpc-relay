@@ -654,8 +654,8 @@ export class CommonService implements ICommonService {
    * If the contract creation is via a system contract, it handles the system contract creation.
    * If not, it returns the address from the receipt response.
    *
-   * @param {any} receiptResponse - The receipt response object.
-   * @returns {string} The contract address.
+   * @param {MirrorNodeContractResultBase} receiptResponse - The receipt response object.
+   * @returns {string | null} The contract address.
    */
   public getContractAddressFromReceipt(receiptResponse: MirrorNodeContractResultBase): string | null {
     const isCreationViaSystemContract = constants.HTS_CREATE_FUNCTIONS_SELECTORS.includes(

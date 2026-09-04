@@ -1035,7 +1035,7 @@ export class TransactionService implements ITransactionService {
    * @param originalCallerAddress The address of the original caller
    * @param networkGasPriceInWeiBars The current network gas price in wei bars
    * @param requestDetails The request details for logging and tracking
-   * @returns {Promise<{submittedTransactionId: string, error: any}>} A promise that resolves to an object containing transaction submission details
+   * @returns {Promise<{submittedTransactionId: string, error: unknown}>} A promise that resolves to an object containing transaction submission details
    */
   private async submitTransaction(
     transactionBuffer: Buffer,

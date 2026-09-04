@@ -14,15 +14,6 @@ import { type INewFilterParams } from '../../../types/requestParams';
 import { type ICommonService } from '../../index';
 import { type IFilterService } from './IFilterService';
 
-/**
- * Create a new Filter Service implementation.
- * @param mirrorNodeClient
- * @param logger
- * @param chain
- * @param registry
- * @param cacheService
- */
-
 /** A filter as stored in the cache: log filters carry `INewFilterParams`, block filters carry `blockAtCreation`. */
 type CachedFilter = {
   type: string;

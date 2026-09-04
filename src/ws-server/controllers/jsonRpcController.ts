@@ -38,13 +38,13 @@ const RPC_WS_API = new Set(ConfigService.get('RPC_WS_API'));
  * This function constructs a request tag, submits the request to the relay, and logs the process.
  * @notice This function is shared among all supported methods expect for eth_subscribe & eth_unsubscribe
  * @param {object} args - An object containing the function parameters as properties.
- * @param {any} args.request - The request object received from the client.
+ * @param {IJsonRpcRequest} args.request - The request object received from the client.
  * @param {string} args.method - The method to call on the relay.
- * @param {any} args.params - The parameters for the method call.
+ * @param {unknown[]} args.params - The parameters for the method call.
  * @param {Relay} args.relay - The relay object.
- * @param {any} args.logger - The logger object used for tracing.
+ * @param {Logger} args.logger - The logger object used for tracing.
  * @param {RequestDetails} args.requestDetails - The request details for logging and tracking.
- * @returns {Promise<any>} A promise that resolves to the result of the request.
+ * @returns {Promise<IJsonRpcResponse>} A promise that resolves to the result of the request.
  */
 const handleSendingRequestsToRelay = async ({
   request,
@@ -74,15 +74,16 @@ const handleSendingRequestsToRelay = async ({
 /**
  * Retrieves the result of a request made to a Relay.
  * This function handles processing the request, including method validation, parameter validation, and method-specific logic.
- * @param {any} ctx - The context object.
+ * @param {Koa.Context} ctx - The context object.
  * @param {Relay} relay - The relay object.
- * @param {any} logger - The logger object.
- * @param {any} request - The request object.
+ * @param {Logger} logger - The logger object.
+ * @param {IJsonRpcRequest} request - The request object.
  * @param {ConnectionLimiter} limiter - The connection limiter object.
  * @param {MirrorNodeClient} mirrorNodeClient - The MirrorNodeClient object.
  * @param {WsMetricRegistry} wsMetricRegistry - The WsMetricRegistry object.
  * @param {RequestDetails} requestDetails - The request details for logging and tracking.
- * @returns {Promise<any>} A promise that resolves to the response of the request.
+ * @param {SubscriptionService} subscriptionService - The subscription service used for eth_subscribe/eth_unsubscribe.
+ * @returns {Promise<IJsonRpcResponse>} A promise that resolves to the response of the request.
  */
 export const getRequestResult = async (
   ctx: Koa.Context,

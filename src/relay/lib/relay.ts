@@ -127,7 +127,7 @@ export class Relay {
    * that have been decorated with the @rpcMethod decorator.
    *
    * @public
-   * @type {Map<string, Function>} - The registry containing all available RPC methods.
+   * @type {RpcMethodRegistry} - The registry containing all available RPC methods.
    */
   public rpcMethodRegistry!: RpcMethodRegistry;
 
@@ -162,9 +162,9 @@ export class Relay {
    * to invoke RPC methods on the Relay.
    *
    * @param {string} rpcMethodName - The name of the RPC method to execute
-   * @param {any[]} rpcMethodParams - The params for the RPC method to execute
+   * @param {unknown[] | undefined} rpcMethodParams - The params for the RPC method to execute
    * @param {RequestDetails} requestDetails - Additional request context
-   * @returns {Promise<any>} The result of executing the RPC method
+   * @returns {Promise<unknown>} The result of executing the RPC method
    */
   public async executeRpcMethod(
     rpcMethodName: string,

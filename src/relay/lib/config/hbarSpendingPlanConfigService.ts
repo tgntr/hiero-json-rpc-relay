@@ -167,7 +167,6 @@ export class HbarSpendingPlanConfigService {
    *
    * @param {IDetailedHbarSpendingPlan[]} existingPlans - The existing HBAR spending plans in the database.
    * @param {SpendingPlanConfig[]} spendingPlanConfigs - The current spending plan configurations.
-   * @param {RequestDetails} requestDetails - The details of the current request.
    * @returns {Promise<number>} - A promise that resolves with the number of plans deleted.
    * @private
    */

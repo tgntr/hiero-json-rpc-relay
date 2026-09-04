@@ -18,6 +18,7 @@ import {
   LocalPendingTransactionStorage,
   LockService,
   TransactionPoolService,
+  TransactionTimestampIndexFactory,
   TransactionTracingService,
   TransactionTracingStorageFactory,
 } from '../../../../src/relay/lib/services';
@@ -54,6 +55,10 @@ export function generateEthTestEnv(fixedFeeHistory = false) {
     logger.child({ name: `mirror-node` }),
     registry,
     cacheService,
+    undefined,
+    undefined,
+    undefined,
+    TransactionTimestampIndexFactory.create(logger),
   );
 
   const restMock = new MockAdapter(mirrorNodeInstance.getMirrorNodeRestInstance(), { onNoMatch: 'throwException' });
